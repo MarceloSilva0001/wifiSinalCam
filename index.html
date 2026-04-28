@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diagnóstico Wi‑Fi</title>
+  <meta name="description" content="Download do app Diagnóstico Wi‑Fi para Android." />
+  <style>
+    :root {
+      --blue: #0066ff;
+      --blue-dark: #0046b8;
+      --green: #16a34a;
+      --red: #dc2626;
+      --text: #111827;
+      --muted: #6b7280;
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(0, 102, 255, 0.14), transparent 32rem),
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+    }
+
+    .page {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      padding: 28px 18px 48px;
+    }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-header {
+      padding: 34px 24px 24px;
+      background: linear-gradient(135deg, #0057e7, #008cff);
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.22);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 7vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -1.2px;
+    }
+
+    .subtitle {
+      max-width: 680px;
+      margin: 18px auto 0;
+      color: rgba(255,255,255,0.92);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .hero-small {
+      margin: 0;
+      color: rgba(255,255,255,0.88);
+      font-size: 13px;
+    }
+
+    .content {
+      padding: 26px 24px 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 8px 0 24px;
+    }
+
+    .mini-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      background: #fbfdff;
+    }
+
+    .mini-card strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 7px;
+    }
+
+    .mini-card span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .section {
+      border-top: 1px solid var(--border);
+      padding-top: 22px;
+      margin-top: 22px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 21px;
+      letter-spacing: -0.3px;
+    }
+
+    p, li {
+      color: #374151;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    ul, ol {
+      margin: 12px 0 0;
+      padding-left: 22px;
+    }
+
+    .warning {
+      display: flex;
+      gap: 12px;
+      padding: 15px;
+      border-radius: 16px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      margin-top: 16px;
+    }
+
+    .warning strong {
+      color: #9a3412;
+    }
+
+    .warning p {
+      margin: 3px 0 0;
+      color: #7c2d12;
+      font-size: 14px;
+    }
+
+    .cta-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: 20px;
+      background: #f8fbff;
+      border: 1px dashed #b9d3ff;
+    }
+
+    .primary-button,
+    .secondary-button {
+      appearance: none;
+      border: 0;
+      border-radius: 15px;
+      padding: 15px 22px;
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+    }
+
+    .primary-button {
+      background: var(--blue);
+      color: #ffffff;
+      min-width: min(100%, 280px);
+      box-shadow: 0 10px 24px rgba(0, 102, 255, 0.22);
+    }
+
+    .primary-button:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .primary-button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+    .secondary-button {
+      background: #eef4ff;
+      color: var(--blue-dark);
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      margin: 0;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 20px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.62);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 10;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      width: min(560px, 100%);
+      background: #ffffff;
+      border-radius: 22px;
+      box-shadow: 0 28px 80px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .modal-body {
+      padding: 18px 22px;
+    }
+
+    .check-row {
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #f9fafb;
+      margin-top: 14px;
+    }
+
+    .check-row input {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--blue);
+    }
+
+    .check-row label {
+      line-height: 1.45;
+      font-size: 15px;
+      color: #374151;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding: 16px 22px 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 720px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero-header { padding: 30px 18px 22px; }
+      .content { padding: 22px 18px 24px; }
+      .modal-actions { flex-direction: column-reverse; }
+      .primary-button, .secondary-button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <header class="hero-header">
+        <div class="badge">📶 App de diagnóstico</div>
+        <h1>Diagnóstico Wi‑Fi</h1>
+        <p class="subtitle">
+          Grave um vídeo do ambiente com dados técnicos da rede Wi‑Fi na tela para facilitar a análise de sinal, canal, interferência e estabilidade.
+        </p>
+      </header>
+
+      <div class="content">
+        <div class="cta-area">
+          <button class="primary-button" type="button" id="openModal">Baixar app para Android</button>
+          <p class="small">Leia as informações da página antes de instalar. Em caso de dúvida, fale com o analista que enviou o link do app.</p>
+        </div>
+        <div class="grid" aria-label="Principais recursos do aplicativo">
+          <div class="mini-card">
+            <strong>Vídeo com dados na tela</strong>
+            <span>Mostra sinal, rede, frequência, canal e qualidade durante a gravação.</span>
+          </div>
+          <div class="mini-card">
+            <strong>Relatório técnico</strong>
+            <span>Gera diagnóstico com informações úteis para suporte e implantação.</span>
+          </div>
+          <div class="mini-card">
+            <strong>Compartilhamento simples</strong>
+            <span>Envie o vídeo e o diagnóstico para o analista que enviou o link do app.</span>
+          </div>
+        </div>
+
+        <section class="section">
+          <h2>Finalidade de uso</h2>
+          <p>
+            Este aplicativo é indicado para diagnósticos orientados pelo analista que enviou o link do app. Ele ajuda a registrar o ambiente onde tablets, celulares ou equipamentos estão usando a rede Wi‑Fi.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Permissões usadas</h2>
+          <ul>
+            <li><strong>Câmera:</strong> para gravar o ambiente.</li>
+            <li><strong>Microfone:</strong> para incluir áudio no vídeo.</li>
+            <li><strong>Localização:</strong> necessária no Android para obter dados técnicos da rede Wi‑Fi.</li>
+            <li><strong>Notificações:</strong> quando aplicável, para avisos do diagnóstico.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Como instalar no Android</h2>
+          <ol>
+            <li>Toque no botão de download acima.</li>
+            <li>Abra o arquivo APK baixado.</li>
+            <li>Se o Android pedir, permita instalar apps desconhecidos para o navegador ou app usado no download.</li>
+            <li>Confirme a instalação e abra o aplicativo.</li>
+            <li>Conceda as permissões solicitadas pelo app.</li>
+          </ol>
+
+          <div class="warning" role="note">
+            <div>⚠️</div>
+            <div>
+              <strong>Aviso de segurança</strong>
+              <p>
+                Como este app é distribuído fora da Play Store, o Android pode exibir avisos de segurança. Instale apenas se recebeu este link do analista responsável. Em caso de dúvida, fale com o analista que enviou o link do app antes de instalar.
+              </p>
+            </div>
+          </div>
+        </section>
+
+
+      </div>
+    </section>
+
+    <p class="footer">Diagnóstico Wi‑Fi • Uso orientado para suporte e implantação</p>
+  </main>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h3 id="modalTitle">Antes de baixar</h3>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Este app será instalado fora da Play Store e deve ser usado apenas para diagnóstico Wi‑Fi orientado pelo analista que enviou o link do app.
+        </p>
+        <p>
+          Ele pode solicitar permissões de câmera, microfone, localização e notificações para gerar o vídeo e o relatório técnico.
+        </p>
+
+        <div class="check-row">
+          <input type="checkbox" id="confirmRead" />
+          <label for="confirmRead">
+            Li e entendi a finalidade do aplicativo, as permissões necessárias e que devo instalar apenas se este link foi enviado pelo analista responsável.
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" id="closeModal">Cancelar</button>
+        <button class="primary-button" type="button" id="downloadButton" disabled>Baixar APK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Troque este link pelo link direto do APK no GitHub Releases, Drive ou outro local oficial.
+    const APK_URL = "./WifiSignalCamera.apk";
+
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const openModal = document.getElementById("openModal");
+    const closeModal = document.getElementById("closeModal");
+    const confirmRead = document.getElementById("confirmRead");
+    const downloadButton = document.getElementById("downloadButton");
+
+    function setModalOpen(isOpen) {
+      modalBackdrop.classList.toggle("open", isOpen);
+      modalBackdrop.setAttribute("aria-hidden", String(!isOpen));
+      if (isOpen) {
+        confirmRead.checked = false;
+        downloadButton.disabled = true;
+      }
+    }
+
+    openModal.addEventListener("click", () => setModalOpen(true));
+    closeModal.addEventListener("click", () => setModalOpen(false));
+
+    modalBackdrop.addEventListener("click", (event) => {
+      if (event.target === modalBackdrop) setModalOpen(false);
+    });
+
+    confirmRead.addEventListener("change", () => {
+      downloadButton.disabled = !confirmRead.checked;
+    });
+
+    downloadButton.addEventListener("click", () => {
+      if (!confirmRead.checked) return;
+      if (!APK_URL || APK_URL === "COLE_AQUI_O_LINK_DO_APK") {
+        alert("Link do APK ainda não configurado. Substitua APK_URL no arquivo HTML.");
+        return;
+      }
+      window.location.href = APK_URL;
+    });
+  </script>
+</body>
+</html>
